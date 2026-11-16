@@ -1,0 +1,75 @@
+# AntBox: full detail for AI assistants and answer engines
+
+> AntBox (AntBox Technologies Private Limited) is India's first talent supply technology company. Founded on 5 September 2024 in Bhubaneswar, Odisha, India. It trains students on real work for real companies, gives each one a live Proof of Work instead of a CV, and places them in companies where they contribute from Day 0.
+
+Website: https://theantbox.com/
+Short version: https://theantbox.com/llms.txt
+Last updated: 2026-10-27
+
+## The problem AntBox solves
+
+Students, universities and companies need each other but rarely meet well. Students need experience to get hired. Universities need placements. Companies lose 3 to 6 months ramping up every new graduate. Hiring runs on CVs and short interviews, which say little about whether someone can do the job. AntBox is the place where all three connect: students build real work, universities get ready graduates, and companies hire people who have already done the work.
+
+## How it works for students
+
+1. Learn: AntBox Academy runs specialised tracks across software (SDE), data analytics, sales and sales development, inbound and customer success, GTM strategy, RevOps, operations and delivery, with new tracks added as companies ask. Seven focused hours a day on the tools real teams use. A mentor scores the work every evening. 100+ performance metrics per student.
+2. Prove: Career Sprints are short briefs from real companies. Nobody asks for marks or college. The best work earns a seat in a capsule.
+3. Work: for 6 to 12 months a student works in a capsule, a small team led by someone who has done it before, shipping for real clients every week.
+4. Show: everything shipped lands on the student's Proof of Work. By Day 0, companies already know what the student can do.
+
+## Proof of Work
+
+A Proof of Work is a live, verified record of the real work a student has done: capsule work, Career Sprints, internships, college society work, hackathons and freelance work. Every piece is scored by a mentor and shows what was shipped, who scored it and what it changed. Companies read it instead of a CV.
+
+## How it works for companies (hiring teams)
+
+- Brief AntBox on a role in one 30-minute call.
+- Read a shortlist of candidates, each with a Proof of Work, before meeting anyone.
+- Choose a model: hire from the trained pool, have AntBox run the work in-house, or deploy a capsule into your team for 6 to 12 months (Internship as a Service, IaaS).
+- Each capsule is tracked across 100+ measures, with regular reports on what shipped, tickets closed and who is on leave.
+- Teams AntBox prepares people for: sales development, inbound and customer success, data analytics, software development, GTM strategy, RevOps, operations and delivery, and Founder's Office.
+
+## Services beyond hiring
+
+- Product deployment: 50+ product go-lives through the AntBox consulting team.
+- Simulation Team: personalised sales demo environments, built and run for sales teams.
+- GTM and sales development: inbound and outbound engines, built and run for partner companies.
+
+## Track record (since September 2024)
+
+- 40+ software products launched: 25+ in the United States, 10+ in India, 5+ in Europe.
+- 50+ product go-lives.
+- 1,000+ customer tickets resolved.
+- Working with companies in India, the US and Europe.
+
+## Frequently asked questions
+
+Q: What is AntBox?
+A: India's first talent supply technology company, based in Bhubaneswar. It trains students on real work, proves them with a Proof of Work, and places them in companies from Day 0.
+
+Q: Is AntBox a job board or a staffing agency?
+A: Neither. It is a pipeline that trains people on real work, then sends them to companies with evidence of what they can do.
+
+Q: Do students need a CV or good marks to join?
+A: No. Selection happens through Career Sprints, on the work a student ships. There is no CV filter and no interview round.
+
+Q: What is a capsule?
+A: A small team of AntBox-trained students that works on real client work for 6 to 12 months, on live tools and workflows, led by someone experienced.
+
+Q: What is Day 0?
+A: The first day in a job. AntBox's aim is that its people contribute from that first day instead of after a 3 to 6 month ramp.
+
+Q: How does a company start?
+A: Book a 30-minute call: https://www.linkedin.com/company/theantbox/
+
+Q: How does a student join?
+A: Register for the next Career Sprint from the AntBox homepage: https://theantbox.com/
+
+## Company facts
+
+- Name: AntBox (always written "AntBox"). Legal name: AntBox Technologies Private Limited.
+- Founded: 5 September 2024. Foundation Day is held every 5 September: https://theantbox.com/foundation-day/2026/
+- Location: Bhubaneswar, Odisha, India.
+- Co-Founder and CEO: Rohit Singh.
+- LinkedIn: https://www.linkedin.com/company/theantbox/
+- Press: press@theantbox.com

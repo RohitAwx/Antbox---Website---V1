@@ -1,0 +1,37 @@
+# AntBox
+
+> AntBox (AntBox Technologies Private Limited) is India's first talent supply technology company, founded on 5 September 2024 in Bhubaneswar, Odisha, India. AntBox trains students on real work for real companies, gives each student a live Proof of Work instead of a CV, and places them in companies where they contribute from Day 0. For companies, AntBox supplies trained talent with no 3 to 6 month ramp.
+
+## Key facts
+
+- Name: AntBox (always written "AntBox"). Legal name: AntBox Technologies Private Limited.
+- Founded: 5 September 2024. Based in Bhubaneswar, Odisha, India. Works with companies in India, the US and Europe.
+- What it does: trains students, proves them on real work, and deploys them into companies on Day 0.
+- Proof of Work: a live profile of everything a student has shipped (capsule work, Career Sprints, internships, college society work, hackathons, freelance), scored by mentors. Companies read it instead of a CV.
+- Selection: through Career Sprints, short sprints on real briefs. No CV filter, no interview round.
+- AntBox Academy: specialised tracks, including SDE, Inbound and Customer Success, Data Analytics, GTM Strategy, RevOps and Operations and Delivery, with more added as companies ask; seven hours of daily rigor; 100+ performance metrics.
+- Capsules: small teams doing real work for real clients for 6 to 12 months, on live tools and workflows.
+- Internship as a Service (for companies): hire from the trained pool, have AntBox run the work in-house, or deploy a capsule into your team.
+- Services: product deployment (50+ products deployed in two years), Simulation Team (personalised sales demo environments), GTM and sales development (inbound and outbound).
+- Track record since September 2024: 50+ products deployed; 1,000+ customer tickets resolved; software products launched in the US (25+), India (10+) and Europe (5+).
+
+## For students
+
+- Register for the next Career Sprint: https://script.google.com/macros/s/AKfycbz2OgAgve1LTWsuWpEmb5ChyvA1ZnI84nL5ak6hB10CtpB04Sts6hDsUWg0Tg0PxwSL-A/exec
+- How it works: https://theantbox.com/#what-we-do
+- Proof of Work: https://theantbox.com/#proof
+
+## For companies
+
+- Book a call (via LinkedIn): https://www.linkedin.com/company/theantbox/
+- What AntBox offers companies: https://theantbox.com/?for=company#what-we-do
+
+## Pages
+
+- [Home](https://theantbox.com/): what AntBox is, for students and for companies.
+- [Foundation Day 2026](https://theantbox.com/foundation-day/2026/): AntBox's Foundation Day, held every 5 September; the 2026 edition marked two years.
+- [Privacy](https://theantbox.com/privacy/) and [Terms](https://theantbox.com/terms/).
+- Coming soon: [Resources](https://theantbox.com/resources/), [Academy](https://theantbox.com/academy/), [About us](https://theantbox.com/about/), [University](https://theantbox.com/university/).
+- Full detail for AI assistants: [llms-full.txt](https://theantbox.com/llms-full.txt).
+
+Last updated: 2026-10-27
