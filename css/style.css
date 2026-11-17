@@ -4620,10 +4620,10 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
   background: linear-gradient(120deg, var(--white), var(--purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .nw-co .nw-tag { position: static !important; translate: none !important; opacity: 1 !important; transform: none !important; padding: 0 !important; background: none !important; box-shadow: none !important;
   white-space: normal !important; font: 500 11.5px/1.3 var(--font-body) !important; color: rgb(247 245 238 / .72) !important; }
-.nw-co .nw-n.on { background: linear-gradient(150deg, rgb(187 98 222 / .45), rgb(138 60 176 / .25)), rgb(26 26 26 / .9) !important; box-shadow: inset 0 0 0 1.5px var(--purple), 0 0 50px 4px rgb(187 98 222 / .45) !important; }
+.nw-co .nw-n.on { background: linear-gradient(150deg, rgb(187 98 222 / .45), rgb(138 60 176 / .25)), rgb(26 26 26 / .9) !important; box-shadow: inset 0 0 0 1.5px var(--purple), 0 0 50px 4px rgb(187 98 222 / .45) !important; transition: box-shadow 0s, background .4s; }
 .nw-co .nw-n.on .nw-tag { color: var(--white) !important; }
-.nw-co .nw-n:hover { box-shadow: inset 0 0 0 1.5px rgb(187 98 222 / .7), 0 18px 40px -18px rgb(26 26 26 / .95) !important; }
-.nw-co .nw-field::before { content: ""; position: absolute; left: var(--gx, 50%); top: var(--gy, 50%); width: 560px; height: 560px; translate: -50% -50%; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgb(187 98 222 / .3), transparent); transition: left 1.2s var(--ease-in-out), top 1.2s var(--ease-in-out); }
+.nw-co .nw-n:hover:not(.on) { box-shadow: inset 0 0 0 1.5px rgb(187 98 222 / .7), 0 18px 40px -18px rgb(26 26 26 / .95) !important; }
+.nw-co .nw-field::before { content: ""; position: absolute; left: var(--gx, 50%); top: var(--gy, 50%); width: 560px; height: 560px; translate: -50% -50%; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgb(187 98 222 / .3), transparent); }
 .nw-co .nwc-k { font-size: clamp(56px, 6vw, 84px) !important; }
 @media (max-width: 760px) { .nw-co .nw-field { height: 560px !important; } .nw-co .nw-n { max-width: 140px; padding: 9px 11px; } }
 .form-card .fc-chart { top: auto !important; bottom: 9% !important; right: 8% !important; font-size: 1em !important; }
