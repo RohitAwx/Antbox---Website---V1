@@ -1,5 +1,4 @@
 (() => {
-  // UI-only modal. Submission will be connected in a later release.
   const headings = {
     call: 'Book a call',
     '30-minute': 'Book a 30-minute call',
@@ -96,7 +95,7 @@
           <button class="close" type="button" aria-label="Close booking form">×</button>
         </div>
         <h2 id="booking-heading" tabindex="-1" autofocus>Book a call</h2>
-        <p id="booking-intro" class="intro">Share your contact details and hiring plans before choosing a time.</p>
+        <p id="booking-intro" class="intro">Share your contact details and hiring plans. Our team will be in touch.</p>
         <form>
           <div class="grid">
             <label class="field">First name<input name="first_name" autocomplete="given-name" required maxlength="100"></label>
@@ -120,7 +119,8 @@
             <label class="field" id="other-wrap" hidden>Other role<input name="other_role" maxlength="120" placeholder="Type the role" disabled></label>
           </fieldset>
           <div class="actions">
-            <button class="submit" type="submit" disabled>Continue to 30-minute booking</button>
+            <button class="submit" type="submit">Send hiring enquiry</button>
+            <p class="hint" role="status"></p>
           </div>
         </form>
       </div>
@@ -136,6 +136,8 @@
   const otherInput = form.elements.other_role;
   const otherChoice = form.querySelector('[value="Other"]');
   const heading = shadow.querySelector('#booking-heading');
+  const submit = form.querySelector('.submit');
+  const status = form.querySelector('[role="status"]');
   let intent = 'call';
   let opener = null;
 
@@ -149,13 +151,14 @@
 
   document.addEventListener('click', event => {
     const trigger = event.target instanceof Element && event.target.closest('[data-antbox-booking]');
-    if (!trigger || dialog.open || event.defaultPrevented) return;
+    if (!trigger || dialog.open || submit.disabled || event.defaultPrevented) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     intent = Object.hasOwn(headings, trigger.dataset.antboxBooking) ? trigger.dataset.antboxBooking : 'call';
     opener = trigger;
     heading.textContent = headings[intent];
     form.reset();
+    status.textContent = '';
     syncHiringFields();
     dialog.showModal();
     heading.focus();
@@ -164,6 +167,38 @@
   shadow.querySelector('.close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => opener?.focus());
   form.addEventListener('change', syncHiringFields);
-  // Enter must never navigate or imply a saved lead before submission exists.
-  form.addEventListener('submit', event => event.preventDefault());
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (submit.disabled) return;
+
+    const data = new FormData(form);
+    const payload = {
+      ...Object.fromEntries(data),
+      roles: data.getAll('roles'),
+    };
+
+    submit.disabled = true;
+    status.textContent = 'Sending…';
+    try {
+      const response = await fetch('/api/inbound-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
+      if (!response.ok || result.ok !== true) {
+        status.textContent = response.status === 400
+          ? 'Check your details and try again.'
+          : 'We couldn’t confirm delivery. Please try again.';
+        return;
+      }
+      form.reset();
+      syncHiringFields();
+      status.textContent = 'Thanks. Our team will be in touch.';
+    } catch {
+      status.textContent = 'We couldn’t confirm delivery. Please try again.';
+    } finally {
+      submit.disabled = false;
+    }
+  });
 })();
