@@ -113,24 +113,62 @@ function visuals() {
 /* ---------- the explainer, driven by scroll: on wide screens the three cards hold still while
    you scroll, and each step lights in turn; the marker on the rail follows the scroll exactly.
    On phones the steps stack and each plays as it reaches the middle of the screen. ---------- */
-/* ---------- a week at AntBox: the screen stays, the story scrolls past it. Each chapter
-   that reaches the middle of the screen takes over the screen. On phones every chapter carries
-   its own copy of its screen. ---------- */
+/* ---------- a week at AntBox: desktop copy and screen share a sticky frame and
+   one active chapter. The original chapters retain the scroll length and readable text.
+   Phones keep the existing chapter-by-chapter inline screens. ---------- */
 function story() {
-  $$('[data-story]').forEach(st => {
+  $$('#what-we-do [data-story]').forEach(st => {
     const chs = $$('.st-ch', st), panes = $$('.st-pane', st), title = $('[data-st-title]', st), dots = $$('.st-dots i', st);
+    const wide = matchMedia('(min-width: 960px) and (min-height: 600px)'), stick = $('.st-stick', st);
+    // Visual copies only: keep the original text as the accessible, in-flow scroll track.
+    const copies = reduce ? [] : chs.map(c => {
+      const copy = c.cloneNode(true);
+      copy.classList.replace('st-ch', 'st-copy-ch');
+      copy.removeAttribute('data-i');
+      return copy;
+    });
+    if (copies.length) {
+      const copy = document.createElement('div');
+      copy.className = 'st-copy'; copy.setAttribute('aria-hidden', 'true');
+      copies.forEach(c => copy.appendChild(c));
+      st.appendChild(copy);
+    }
     chs.forEach((c, i) => { const cl = panes[i].cloneNode(true); cl.classList.add('st-inline', 'on'); cl.removeAttribute('data-i'); c.appendChild(cl); });
     let cur = -1;
     const set = i => {
       if (i === cur) return; cur = i;
       chs.forEach((c, j) => c.classList.toggle('on', j === i));
+      copies.forEach((c, j) => c.classList.toggle('on', j === i));
       panes.forEach((p0, j) => p0.classList.toggle('on', j === i));
       dots.forEach((d, j) => d.classList.toggle('on', j <= i));
       if (title) title.textContent = panes[i].dataset.title;
     };
     set(0);
     if (reduce) return;
-    chs.forEach((c, i) => new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) set(i); }), { rootMargin: '-45% 0px -45% 0px' }).observe(c));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      st.classList.toggle('st-synced', wide.matches);
+      if (!wide.matches || !st.offsetParent) return;
+      const screen = stick.getBoundingClientRect(), center = screen.top + screen.height / 2;
+      let next = 0, nearest = Infinity;
+      chs.forEach((c, i) => {
+        const r = c.getBoundingClientRect(), distance = Math.abs(r.top + r.height / 2 - center);
+        if (distance < nearest) { nearest = distance; next = i; }
+      });
+      // Copy, pane, title and progress dots change in this same animation frame.
+      set(next);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    chs.forEach((c, i) => new IntersectionObserver(es => es.forEach(e => {
+      if (!wide.matches && e.isIntersecting) set(i);
+    }), { rootMargin: '-45% 0px -45% 0px' }).observe(c));
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+    addEventListener('load', schedule);
+    onAudience(schedule);
+    if (document.fonts) document.fonts.ready.then(schedule);
+    update();
   });
 }
 
