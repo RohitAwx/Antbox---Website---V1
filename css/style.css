@@ -3640,6 +3640,7 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .ax-art { flex: 1; min-height: 0; display: grid; place-items: center; padding: 18px 22px; overflow: hidden;
   background: radial-gradient(80% 70% at 75% 0%, rgb(187 98 222 / .16), transparent 70%), linear-gradient(rgb(26 26 26 / .035) 1px, transparent 1px) 0 0 / 22px 22px, linear-gradient(90deg, rgb(26 26 26 / .035) 1px, transparent 1px) 0 0 / 22px 22px, var(--beige); }
 .ax-art .art { max-width: 520px; }
+#proof .only-student .ax .art-slide b { color: #fff; }
 .js-motion .ax-pv.on .art { animation: ax-in .55s var(--ease-out) both; }
 @keyframes ax-in { from { opacity: 0; transform: translateY(10px) scale(.985); } }
 .ax-meta { flex: none; display: flex; align-items: flex-start; gap: 16px; padding: 14px 16px; background: var(--white); border-top: 1px solid var(--line); }
