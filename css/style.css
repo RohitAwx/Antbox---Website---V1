@@ -4050,8 +4050,8 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 /* ===== Revision 37: the hiring side is a dark page =====
    No white page showing between or beside the black sections: the page itself is ink, with the
    same purple light, and the light sections sit on it as cream cards. */
-:root[data-aud="company"], :root[data-aud="company"] body { background: var(--ink); }
-:root[data-aud="company"]:not([data-theme="dark"]) body::before {
+:root[data-aud="company"]:not([data-page="legal"]), :root[data-aud="company"]:not([data-page="legal"]) body { background: var(--ink); }
+:root[data-aud="company"]:not([data-page="legal"]):not([data-theme="dark"]) body::before {
   background:
     radial-gradient(42% 38% at 88% 8%, rgb(138 60 176 / .38), transparent 70%),
     radial-gradient(38% 34% at 6% 40%, rgb(187 98 222 / .16), transparent 70%),
