@@ -2426,12 +2426,12 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .what .wrap > .sec-lede { margin-inline: auto; }
 .wkst { position: relative; margin-top: clamp(40px, 6vw, 80px); }
 .st-text { display: grid; gap: 28px; }
-.st-ch { display: grid; gap: 10px; }
+.st-ch, #what-we-do .st-copy-ch { display: grid; gap: 10px; }
 .st-k { font: 400 1rem/1 var(--font-display); color: var(--purple); }
 .st-tag { font: 600 .7rem/1.4 var(--font-body); letter-spacing: .18em; text-transform: uppercase; color: var(--purple); }
-.st-ch h3 { font: 400 clamp(1.9rem, 1.3rem + 2vw, 3.1rem)/1.04 var(--font-display); letter-spacing: -.035em; max-width: 16ch; }
-.st-ch p { color: var(--fg-2); font-size: 1.0625rem; line-height: 1.65; max-width: 40ch; }
-.st-stick { display: none; }
+.st-ch h3, #what-we-do .st-copy-ch h3 { font: 400 clamp(1.9rem, 1.3rem + 2vw, 3.1rem)/1.04 var(--font-display); letter-spacing: -.035em; max-width: 16ch; }
+.st-ch p, #what-we-do .st-copy-ch p { color: var(--fg-2); font-size: 1.0625rem; line-height: 1.65; max-width: 40ch; }
+.st-stick, #what-we-do .st-copy { display: none; }
 .st-inline { margin-top: 14px; border-radius: 18px; padding: 14px; background: var(--dglass-bg); box-shadow: var(--dglass-edge); }
 .st-pane { position: relative; }
 @media (min-width: 960px) {
@@ -2440,7 +2440,14 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
   .st-ch { min-height: 78vh; align-content: center; opacity: .28; transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); transform: translateX(-6px); }
   .st-ch.on { opacity: 1; transform: none; }
   .st-ch .st-inline { display: none; }
-  .st-stick { display: block; position: sticky; top: calc(76px + 9vh); height: calc(82vh - 76px); align-self: start; }
+  .st-stick { display: block; }
+  .st-stick, #what-we-do .st-copy { position: sticky; top: calc(76px + 9vh); height: calc(82vh - 76px); align-self: start; }
+  /* Both story columns hold the active chapter at the same height. */
+  #what-we-do .wkst.st-synced > .st-text { grid-area: 1 / 1; opacity: 0; pointer-events: none; }
+  #what-we-do .wkst.st-synced > .st-stick { grid-area: 1 / 2; }
+  #what-we-do .wkst.st-synced > .st-copy { display: grid; grid-area: 1 / 1; min-width: 0; padding-top: 34px; }
+  #what-we-do .st-copy-ch { grid-area: 1 / 1; align-self: center; opacity: 0; visibility: hidden; transform: translateY(18px); transition: opacity .55s var(--ease-out), transform .65s var(--ease-out), visibility 0s .55s; }
+  #what-we-do .st-copy-ch.on { opacity: 1; visibility: visible; transform: none; transition: opacity .55s var(--ease-out), transform .65s var(--ease-out), visibility 0s; }
   .st-screen { position: relative; height: 100%; }
   .st-screen::before { content: ""; position: absolute; inset: -10% -6%; z-index: -1; background: radial-gradient(45% 45% at 60% 40%, rgb(187 98 222 / .45), transparent 70%); filter: blur(20px); }
   .st-win { height: 100%; display: flex; flex-direction: column; border-radius: 24px; }
@@ -2709,7 +2716,7 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .tr-strip + .p5 { margin-top: 14px; }
 /* the week screen: a calm, centred window the content actually fills */
 @media (min-width: 960px) {
-  .st-stick { top: max(96px, calc(50vh - 290px + 38px)); height: min(580px, calc(100vh - 140px)); }
+  .st-stick, #what-we-do .st-copy { top: max(96px, calc(50vh - 290px + 38px)); height: min(580px, calc(100vh - 140px)); }
   .st-pane { padding: clamp(22px, 2.6vw, 36px); align-content: center; }
   .st-pane > * { width: 100%; }
   .st-pane .ac .day-list li { padding: 9px 0; font-size: .875rem; }
@@ -3633,6 +3640,7 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .ax-art { flex: 1; min-height: 0; display: grid; place-items: center; padding: 18px 22px; overflow: hidden;
   background: radial-gradient(80% 70% at 75% 0%, rgb(187 98 222 / .16), transparent 70%), linear-gradient(rgb(26 26 26 / .035) 1px, transparent 1px) 0 0 / 22px 22px, linear-gradient(90deg, rgb(26 26 26 / .035) 1px, transparent 1px) 0 0 / 22px 22px, var(--beige); }
 .ax-art .art { max-width: 520px; }
+#proof .only-student .ax .art-slide b { color: #fff; }
 .js-motion .ax-pv.on .art { animation: ax-in .55s var(--ease-out) both; }
 @keyframes ax-in { from { opacity: 0; transform: translateY(10px) scale(.985); } }
 .ax-meta { flex: none; display: flex; align-items: flex-start; gap: 16px; padding: 14px 16px; background: var(--white); border-top: 1px solid var(--line); }
@@ -3795,7 +3803,7 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .bands i { will-change: transform; box-shadow: inset 0 1px 0 rgb(247 245 238 / .08); }
 @media (min-width: 960px) {
   /* the week window fits its screens: no tall empty glass, centred under the nav */
-  .st-stick { height: min(calc(82vh - 76px), 460px); top: calc(38px + (100vh - min(calc(82vh - 76px), 460px)) / 2); }
+  .st-stick, #what-we-do .st-copy { height: min(calc(82vh - 76px), 460px); top: calc(38px + (100vh - min(calc(82vh - 76px), 460px)) / 2); }
   .st-screen::before { filter: none; background: radial-gradient(45% 45% at 60% 40%, rgb(187 98 222 / .32), transparent 75%); }
 }
 /* scroll-driven text moves and fades; it no longer blurs (a filter on big type repaints every frame) */
@@ -4042,8 +4050,8 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 /* ===== Revision 37: the hiring side is a dark page =====
    No white page showing between or beside the black sections: the page itself is ink, with the
    same purple light, and the light sections sit on it as cream cards. */
-:root[data-aud="company"], :root[data-aud="company"] body { background: var(--ink); }
-:root[data-aud="company"]:not([data-theme="dark"]) body::before {
+:root[data-aud="company"]:not([data-page="legal"]), :root[data-aud="company"]:not([data-page="legal"]) body { background: var(--ink); }
+:root[data-aud="company"]:not([data-page="legal"]):not([data-theme="dark"]) body::before {
   background:
     radial-gradient(42% 38% at 88% 8%, rgb(138 60 176 / .38), transparent 70%),
     radial-gradient(38% 34% at 6% 40%, rgb(187 98 222 / .16), transparent 70%),
