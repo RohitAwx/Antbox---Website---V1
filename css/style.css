@@ -4744,7 +4744,7 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .rv-p:hover { box-shadow: 0 0 0 2px var(--purple), 0 0 30px 2px rgb(187 98 222 / .55); filter: none; opacity: 1; }
 .rv-p.on { z-index: 4; opacity: 1; filter: none; box-shadow: 0 0 0 3px var(--purple), 0 0 46px 8px rgb(187 98 222 / .7); }
 .rv-p.on::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--purple); animation: nw-ring 2s var(--ease-out) infinite; }
-.rv.is-hovered .rv-p.on::after { animation-play-state: paused; }
+.rv.is-click-paused .rv-p.on::after { animation-play-state: paused; }
 .rv-p:focus-visible { outline: 2px solid var(--purple); outline-offset: 4px; }
 .rv-stage { position: absolute; left: 50%; top: 50%; z-index: 3; translate: -50% -50%; width: min(640px, 82%); margin: 0; display: grid; justify-items: center; gap: 12px; text-align: center; pointer-events: none; }
 .rv-face { width: 84px; height: 84px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 3px var(--purple), 0 0 0 9px rgb(187 98 222 / .18), 0 0 60px 6px rgb(187 98 222 / .5); }

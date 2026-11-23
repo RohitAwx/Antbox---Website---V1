@@ -1241,7 +1241,7 @@ function nodeSegue() {
 /* ---------- the people: a river. Faces flow across in three depths (far ones small and soft,
    near ones large and sharp), linked to their neighbours as they pass; pulses run along the
    links. One person's words sit large in the middle, joined by a line of light to their face in
-   the stream. Tap anyone to read theirs; hovering over the stream pauses it. ---------- */
+   the stream. Selecting a portrait briefly pauses the stream. ---------- */
 function riverWall() {
   const el = $('[data-rv]'), raw = $('#voices-data');
   if (!el || !raw) return;
@@ -1262,9 +1262,12 @@ function riverWall() {
     return { b, v, i, d, x: 0, y: 0, ph: rnd() * 6.28 };
   });
   const dots = Array.from({ length: 46 }, (_, k) => ({ d: k % 3, x: 0, y: 0, r: 1.4 + rnd() * 2.2, ph: rnd() * 6.28 }));
-  let stageBox = null, W = 0, H = 0, VW = 0, dpr = 1, size = 64, cur = -1, hover = false, seen = false, last = performance.now(), pulses = [], speed = 1;
+  let stageBox = null, W = 0, H = 0, VW = 0, dpr = 1, size = 64, cur = -1, seen = false, last = performance.now(), pulses = [], speed = 1;
   let elapsed = 0, streamTime = 0;
+  let mouseOverPortrait = null, selectedPortrait = null, pauseUntil = 0;
   const PACE = 1.15;
+  const SELECTED_SPEED = 0.9;
+  const CLICK_PAUSE_MS = 350;
   const DWELL = 6.5;
   const lay = () => {
     W = el.clientWidth; H = el.clientHeight;
@@ -1288,7 +1291,7 @@ function riverWall() {
     });
     dots.forEach(p => { p.x = rnd() * VW - 110; p.y = 20 + rnd() * (H - 40); });
   };
-  const pick = (i, user) => {
+  const pick = i => {
     if (i === cur) return;
     cur = i; elapsed = 0;
     const v = items[i];
@@ -1302,10 +1305,26 @@ function riverWall() {
   // the next person to speak is someone passing through the middle of the stream right now
   // the next to speak is a near face just arriving in the middle, so you can watch them pass while they talk
   const nextUp = () => { let best = -1, bd = 1e9; people.forEach(p => { if (p.d !== 2 || p.i === cur) return; const d = Math.abs(p.x - W * 0.4); if (d < bd) { bd = d; best = p.i; } }); return best < 0 ? (cur + 1) % items.length : best; };
-  people.forEach(p => p.b.addEventListener('click', () => pick(p.i, true)));
-  const setHover = active => { hover = active; el.classList.toggle('is-hovered', active); };
-  el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') setHover(true); });
-  el.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') setHover(false); });
+  people.forEach(({ b, i }) => {
+    b.addEventListener('pointerenter', e => {
+      if (e.pointerType === 'mouse') mouseOverPortrait = b;
+    });
+    b.addEventListener('pointerleave', e => {
+      if (e.pointerType !== 'mouse') return;
+      if (mouseOverPortrait === b) mouseOverPortrait = null;
+      if (selectedPortrait === b) {
+        selectedPortrait = null;
+        pauseUntil = 0;
+      }
+    });
+    b.addEventListener('click', e => {
+      pick(i);
+      elapsed = 0;
+      selectedPortrait = e.detail > 0 && mouseOverPortrait === b ? b : null;
+      pauseUntil = performance.now() + CLICK_PAUSE_MS;
+      speed = 0;
+    });
+  });
   lay(); addEventListener('resize', lay); onAudience(() => requestAnimationFrame(lay));
   new IntersectionObserver(es => { seen = es[0].isIntersecting; if (seen && cur < 0) { if (!W) lay(); pick(nextUp()); } }, { threshold: 0.1 }).observe(el);
   const tick = now => {
@@ -1313,10 +1332,12 @@ function riverWall() {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     if (!seen || !W) return;
     const live = !reduce && !isPaused();
-    const targetSpeed = hover ? 0 : 1;
+    const clickPaused = now < pauseUntil;
+    const targetSpeed = clickPaused ? 0 : selectedPortrait ? SELECTED_SPEED : 1;
+    el.classList.toggle('is-click-paused', clickPaused);
     speed += (targetSpeed - speed) * (1 - Math.exp(-12 * dt));
     if (Math.abs(targetSpeed - speed) < 0.01) speed = targetSpeed;
-    if (live && !hover) {
+    if (live && !clickPaused && !selectedPortrait) {
       elapsed += dt;
       if (elapsed >= DWELL) pick(nextUp());
     }
