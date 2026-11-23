@@ -1,0 +1,76 @@
+/* Homepage audience control only; the hero switch keeps its existing styling. */
+.nav .nav-audience-control {
+  position: absolute;
+  left: var(--aud-left, 180px);
+  top: 50%;
+  width: var(--aud-width, 220px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  gap: 2px;
+  border-radius: 999px;
+  background: linear-gradient(145deg, rgb(255 255 255 / .24), rgb(255 255 255 / .08));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .55), 0 3px 14px rgb(26 26 26 / .08);
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  backdrop-filter: blur(12px) saturate(125%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(calc(-50% + 4px));
+  transition: opacity .24s ease, transform .24s ease, visibility .24s;
+}
+.nav .nav-audience-control.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(-50%);
+}
+.nav-audience-control :is(button, .nav-audience-option) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  z-index: 1;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  font: 500 12px var(--font-body, inherit);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.nav-audience-control :is(button, .nav-audience-option):is([aria-pressed="true"], .is-selected) { color: #fff; }
+.nav-audience-control :is(button, .nav-audience-option):focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
+.nav-audience-thumb {
+  position: absolute;
+  inset: 4px auto 4px 4px;
+  width: calc(50% - 5px);
+  border-radius: 999px;
+  background: #1a1a1a;
+  transition: transform .24s ease, background-color .24s ease;
+}
+:root[data-aud="company"] .nav-audience-thumb { transform: translateX(calc(100% + 2px)); background: #bb62de; }
+:root[data-aud="company"] .nav-audience-control :is(button, .nav-audience-option):is([aria-pressed="true"], .is-selected) { color: #1a1a1a; }
+.nav.on-dark .nav-audience-control { background: linear-gradient(145deg, rgb(255 255 255 / .13), rgb(255 255 255 / .04)); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .3), 0 3px 14px rgb(0 0 0 / .12); }
+.nav.on-dark .nav-audience-control :is(button, .nav-audience-option) { color: #f7f5ee; }
+.nav.on-dark .nav-audience-thumb { background: #f7f5ee; }
+.nav.on-dark .nav-audience-control :is(button, .nav-audience-option):is([aria-pressed="true"], .is-selected) { color: #1a1a1a; }
+.nav[data-audience-shift] .nav-links { transform: translateX(var(--aud-links-shift, 0px)); transition: transform .24s ease; }
+@media (max-width: 979px) {
+  .nav-audience-control :is(button, .nav-audience-option) { min-height: 40px; padding-inline: 4px; font-size: 12px; }
+}
+@media (max-width: 520px) {
+  .nav-audience-control :is(button, .nav-audience-option) { font-size: 11px; }
+}
+@media (max-width: 329px) {
+  .nav-audience-control :is(button, .nav-audience-option) { font-size: 10.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav .nav-audience-control, .nav-audience-control :is(button, .nav-audience-option), .nav-audience-thumb,
+  .nav[data-audience-shift] .nav-links { transition: none; }
+}

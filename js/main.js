@@ -2,7 +2,7 @@
    stream, a raw WebGL network that runs the full length of the page. */
 import { gsap, hasGsap, reduce, startScroll, ScrollTrigger, lenis } from '/js/motion.js?v=a2d8108bd7';
 import { initUI, onAudience, audience } from '/js/ui.js?v=ea9c9e7efe';
-import { initSections } from '/js/sections.js?v=1d23836fc7';
+import { initSections } from '/js/sections.js?v=testimonial-click-1';
 import { runIntro, loadAtlas } from '/js/intro.js?v=158560180a';
 import { initNetworkScroll, bindStream } from '/js/stream-scroll.js?v=11c73afe40';
 

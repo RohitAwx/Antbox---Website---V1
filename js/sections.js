@@ -1241,7 +1241,7 @@ function nodeSegue() {
 /* ---------- the people: a river. Faces flow across in three depths (far ones small and soft,
    near ones large and sharp), linked to their neighbours as they pass; pulses run along the
    links. One person's words sit large in the middle, joined by a line of light to their face in
-   the stream. Tap anyone to read theirs; pointing at the stream slows it. ---------- */
+   the stream. Selecting a portrait briefly pauses the stream. ---------- */
 function riverWall() {
   const el = $('[data-rv]'), raw = $('#voices-data');
   if (!el || !raw) return;
@@ -1262,8 +1262,13 @@ function riverWall() {
     return { b, v, i, d, x: 0, y: 0, ph: rnd() * 6.28 };
   });
   const dots = Array.from({ length: 46 }, (_, k) => ({ d: k % 3, x: 0, y: 0, r: 1.4 + rnd() * 2.2, ph: rnd() * 6.28 }));
-  let stageBox = null, W = 0, H = 0, VW = 0, dpr = 1, size = 64, cur = -1, hover = false, seen = false, t0 = 0, last = performance.now(), pulses = [], speed = 1;
-  const DWELL = 6500;
+  let stageBox = null, W = 0, H = 0, VW = 0, dpr = 1, size = 64, cur = -1, seen = false, last = performance.now(), pulses = [], speed = 1;
+  let elapsed = 0, streamTime = 0;
+  let mouseOverPortrait = null, selectedPortrait = null, pauseUntil = 0;
+  const PACE = 1.15;
+  const SELECTED_SPEED = 0.9;
+  const CLICK_PAUSE_MS = 350;
+  const DWELL = 6.5;
   const lay = () => {
     W = el.clientWidth; H = el.clientHeight;
     if (!W) return;
@@ -1286,9 +1291,9 @@ function riverWall() {
     });
     dots.forEach(p => { p.x = rnd() * VW - 110; p.y = 20 + rnd() * (H - 40); });
   };
-  const pick = (i, user) => {
+  const pick = i => {
     if (i === cur) return;
-    cur = i; t0 = performance.now();
+    cur = i; elapsed = 0;
     const v = items[i];
     people.forEach(p => p.b.classList.toggle('on', p.i === i));
     stage.classList.remove('in'); void stage.offsetWidth;
@@ -1300,9 +1305,26 @@ function riverWall() {
   // the next person to speak is someone passing through the middle of the stream right now
   // the next to speak is a near face just arriving in the middle, so you can watch them pass while they talk
   const nextUp = () => { let best = -1, bd = 1e9; people.forEach(p => { if (p.d !== 2 || p.i === cur) return; const d = Math.abs(p.x - W * 0.4); if (d < bd) { bd = d; best = p.i; } }); return best < 0 ? (cur + 1) % items.length : best; };
-  people.forEach(p => p.b.addEventListener('click', () => pick(p.i, true)));
-  el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hover = true; });
-  el.addEventListener('pointerleave', () => { hover = false; });
+  people.forEach(({ b, i }) => {
+    b.addEventListener('pointerenter', e => {
+      if (e.pointerType === 'mouse') mouseOverPortrait = b;
+    });
+    b.addEventListener('pointerleave', e => {
+      if (e.pointerType !== 'mouse') return;
+      if (mouseOverPortrait === b) mouseOverPortrait = null;
+      if (selectedPortrait === b) {
+        selectedPortrait = null;
+        pauseUntil = 0;
+      }
+    });
+    b.addEventListener('click', e => {
+      pick(i);
+      elapsed = 0;
+      selectedPortrait = e.detail > 0 && mouseOverPortrait === b ? b : null;
+      pauseUntil = performance.now() + CLICK_PAUSE_MS;
+      speed = 0;
+    });
+  });
   lay(); addEventListener('resize', lay); onAudience(() => requestAnimationFrame(lay));
   new IntersectionObserver(es => { seen = es[0].isIntersecting; if (seen && cur < 0) { if (!W) lay(); pick(nextUp()); } }, { threshold: 0.1 }).observe(el);
   const tick = now => {
@@ -1310,12 +1332,20 @@ function riverWall() {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     if (!seen || !W) return;
     const live = !reduce && !isPaused();
-    speed += ((hover ? 0 : 1) - speed) * Math.min(1, dt * 2);
-    if (live && !hover && now - t0 > DWELL) pick(nextUp());
-    const T = now / 1000;
+    const clickPaused = now < pauseUntil;
+    const targetSpeed = clickPaused ? 0 : selectedPortrait ? SELECTED_SPEED : 1;
+    el.classList.toggle('is-click-paused', clickPaused);
+    speed += (targetSpeed - speed) * (1 - Math.exp(-12 * dt));
+    if (Math.abs(targetSpeed - speed) < 0.01) speed = targetSpeed;
+    if (live && !clickPaused && !selectedPortrait) {
+      elapsed += dt;
+      if (elapsed >= DWELL) pick(nextUp());
+    }
+    const motionDt = live ? dt * speed * PACE : 0;
+    streamTime += motionDt;
     const move = p => {
-      if (live) { p.x += L[p.d].v * speed * dt * (W < 700 ? 0.8 : 1); if (p.x > VW - 110) p.x -= VW; }   // left to right
-      p.dy = Math.sin(T * 0.35 + p.ph) * (1.5 + p.d);
+      if (motionDt) { p.x += L[p.d].v * motionDt * (W < 700 ? 0.8 : 1); if (p.x > VW - 110) p.x -= VW; }   // left to right
+      p.dy = Math.sin(streamTime * 0.35 + p.ph) * (1.5 + p.d);
     };
     people.forEach(p => { move(p); p.b.style.transform = `translate(${p.x.toFixed(1)}px, ${(p.y + p.dy).toFixed(1)}px) translate(-50%, -50%)`; });
     dots.forEach(move);
@@ -1332,8 +1362,8 @@ function riverWall() {
     }
     dots.forEach(p => { ctx.fillStyle = `rgba(247,245,238,${0.18 + p.d * 0.15})`; ctx.beginPath(); ctx.arc(p.x, p.y + p.dy, p.r, 0, 6.283); ctx.fill(); });
     // pulses, and now and then a new one somewhere in the stream
-    if (live && Math.random() < dt * 5) { const a = A[Math.floor(Math.random() * A.length)], b = A[Math.floor(Math.random() * A.length)]; if (a !== b && Math.hypot(a.x - b.x, a.y - b.y) < 170) pulses.push({ a, b, t: 0, sp: 0.6 + Math.random() * 0.5 }); }
-    pulses = pulses.filter(q => (q.t += dt * q.sp) < 1);
+    if (Math.random() < motionDt * 5) { const a = A[Math.floor(Math.random() * A.length)], b = A[Math.floor(Math.random() * A.length)]; if (a !== b && Math.hypot(a.x - b.x, a.y - b.y) < 170) pulses.push({ a, b, t: 0, sp: 0.6 + Math.random() * 0.5 }); }
+    pulses = pulses.filter(q => (q.t += motionDt * q.sp) < 1);
     pulses.forEach(q => { const x = q.a.x + (q.b.x - q.a.x) * q.t, y = q.a.y + q.a.dy + (q.b.y + q.b.dy - q.a.y - q.a.dy) * q.t; const g = ctx.createRadialGradient(x, y, 0, x, y, 8); g.addColorStop(0, 'rgba(247,245,238,.9)'); g.addColorStop(.4, 'rgba(187,98,222,.8)'); g.addColorStop(1, 'rgba(187,98,222,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 8, 0, 6.283); ctx.fill(); });
     // the line of light from the speaker in the stream to their words
     const sp = people[cur];
@@ -1341,7 +1371,7 @@ function riverWall() {
       if (!stageBox) { const r = stage.getBoundingClientRect(), o = el.getBoundingClientRect(); stageBox = [r.left - o.left + r.width / 2, r.top - o.top, r.bottom - o.top]; }
       const fx = stageBox[0], fy = sp.y < H / 2 ? stageBox[1] : stageBox[2], sx = sp.x, sy = sp.y + sp.dy;
       const gr = ctx.createLinearGradient(sx, sy, fx, fy); gr.addColorStop(0, 'rgba(187,98,222,.95)'); gr.addColorStop(1, 'rgba(187,98,222,.15)');
-      ctx.strokeStyle = gr; ctx.lineWidth = 1.6; ctx.setLineDash([5, 6]); ctx.lineDashOffset = -T * 30;
+      ctx.strokeStyle = gr; ctx.lineWidth = 1.6; ctx.setLineDash([5, 6]); ctx.lineDashOffset = -streamTime * 30;
       ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo((sx + fx) / 2, sy, fx, fy); ctx.stroke(); ctx.setLineDash([]);
     }
   };
