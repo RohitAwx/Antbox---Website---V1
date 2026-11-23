@@ -42,6 +42,7 @@
 <link rel="preload" href="/fonts/questrial-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="/css/style.css?v=7fb9bc1afa">
+<link rel="stylesheet" href="/css/antbox-nav-audience.css?v=2">
 <script>
 /* Runs before first paint: picks the audience (students first), so nothing flashes
    in the wrong mode. Every storage access is wrapped. */
@@ -137,6 +138,11 @@
 <header class="nav" id="nav">
   <div class="nav-bar">
     <a class="logo" href="/" aria-label="AntBox home"><img data-logo class="logo-svg logo-img" src="/images/logo.png" alt="" width="800" height="177"></a>
+    <div class="nav-audience-control" role="group" aria-label="Show AntBox for" data-switch inert aria-hidden="true">
+      <button type="button" data-aud="student" aria-pressed="true">I'm a student</button>
+      <button type="button" data-aud="company" aria-pressed="false">I'm hiring</button>
+      <span class="nav-audience-thumb" aria-hidden="true"></span>
+    </div>
     <nav class="nav-links" id="nav-menu" aria-label="Main">
       <ul>
         <!-- each page is a plain file on the server (public_html/<name>/index.html): replace the file to publish the real page -->
@@ -445,5 +451,6 @@
 <script defer src="/js/antbox-booking.js?v=2"></script>
 <script defer src="/js/antbox-back-to-top.js?v=5"></script>
 <script type="module" src="/js/main.js?v=6f7d6cf9f0"></script>
+<script type="module" src="/js/antbox-nav-audience.js?v=2"></script>
 </body>
 </html>
