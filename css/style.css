@@ -2614,7 +2614,8 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .cd-badge { justify-self: start; margin-top: 4px; padding: 3px 9px; border-radius: 999px; background: var(--ink); color: var(--beige); font-size: .64rem; font-weight: 600; }
 .art-price { display: grid; gap: 12px; padding: 16px; border-radius: 14px; background: var(--white); box-shadow: 0 20px 40px -24px rgb(26 26 26 / .4); }
 .pr-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; } .pr-cards span { display: grid; gap: 2px; padding: 12px; border-radius: 12px; background: rgb(247 245 238 / .9); } .pr-cards small { font-size: .66rem; color: rgb(26 26 26 / .62); } .pr-cards b { font: 400 1.4rem/1 var(--font-display); } .pr-cards em { font-style: normal; font-size: .66rem; color: rgb(26 26 26 / .62); }
-.pr-cards .hi { background: var(--ink); color: var(--beige); } .pr-cards .hi small, .pr-cards .hi em { color: rgb(247 245 238 / .7); }
+.pr-cards .hi { background: var(--ink); color: var(--beige); } .art-price .pr-cards .hi > b { color: #fff; }
+.pr-cards .hi small, .pr-cards .hi em { color: rgb(247 245 238 / .7); }
 .pr-chart { width: 100%; height: 70px; } .pr-chart .g { stroke: rgb(26 26 26 / .07); fill: none; } .pr-chart .l { fill: none; stroke: var(--purple); stroke-width: 2.4; vector-effect: non-scaling-stroke; stroke-dasharray: 500; stroke-dashoffset: 500; } .pr-chart .l2 { fill: none; stroke: rgb(26 26 26 / .3); stroke-width: 2; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
 .pr-k { display: flex; align-items: center; gap: 6px; font-size: .66rem; color: rgb(26 26 26 / .62); } .pr-k i { width: 12px; height: 3px; border-radius: 2px; background: var(--purple); } .pr-k i.o { background: rgb(26 26 26 / .3); }
 @media (max-width: 899px) {
@@ -4743,6 +4744,7 @@ main, .nav, .footer { transition: opacity .6s var(--ease-out); }
 .rv-p:hover { box-shadow: 0 0 0 2px var(--purple), 0 0 30px 2px rgb(187 98 222 / .55); filter: none; opacity: 1; }
 .rv-p.on { z-index: 4; opacity: 1; filter: none; box-shadow: 0 0 0 3px var(--purple), 0 0 46px 8px rgb(187 98 222 / .7); }
 .rv-p.on::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--purple); animation: nw-ring 2s var(--ease-out) infinite; }
+.rv.is-hovered .rv-p.on::after { animation-play-state: paused; }
 .rv-p:focus-visible { outline: 2px solid var(--purple); outline-offset: 4px; }
 .rv-stage { position: absolute; left: 50%; top: 50%; z-index: 3; translate: -50% -50%; width: min(640px, 82%); margin: 0; display: grid; justify-items: center; gap: 12px; text-align: center; pointer-events: none; }
 .rv-face { width: 84px; height: 84px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 3px var(--purple), 0 0 0 9px rgb(187 98 222 / .18), 0 0 60px 6px rgb(187 98 222 / .5); }
