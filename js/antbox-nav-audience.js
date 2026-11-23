@@ -15,8 +15,8 @@ if (control) {
   function update() {
     frame = 0;
     const navRect = bar.getBoundingClientRect();
-    const heroRect = hero?.getBoundingClientRect();
-    // Homepage: hand over when the first section leaves the viewport.
+    const heroRect = heroSwitch?.getBoundingClientRect();
+    // Homepage: hand over as soon as the original toggle passes behind the navbar.
     // Legal pages: always provide links back to either homepage audience.
     const show = !heroRect || heroRect.bottom <= navRect.bottom;
     const mobile = matchMedia('(max-width: 979px)').matches;
